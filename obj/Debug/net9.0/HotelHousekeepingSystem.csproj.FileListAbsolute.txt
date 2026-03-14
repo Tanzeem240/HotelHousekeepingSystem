@@ -185,3 +185,4 @@ C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\HotelHousekeepingSystem\obj
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\HotelHousekeepingSystem\obj\Debug\net9.0\HotelHousekeepingSystem.pdb
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\HotelHousekeepingSystem\obj\Debug\net9.0\HotelHousekeepingSystem.genruntimeconfig.cache
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\HotelHousekeepingSystem\obj\Debug\net9.0\ref\HotelHousekeepingSystem.dll
+C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\HotelHousekeepingSystem\obj\Debug\net9.0\HotelHousekeepingSystem.sourcelink.json

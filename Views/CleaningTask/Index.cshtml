@@ -1,0 +1,22 @@
+﻿@model IEnumerable<HotelHousekeepingSystem.Models.CleaningTask>
+
+<h2>Housekeeping Tasks</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Room ID</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    @foreach (var task in Model)
+    {
+        <tr>
+            <td>@task.RoomId</td>
+            <td>@task.Status</td>
+        </tr>
+    }
+    </tbody>
+</table>
