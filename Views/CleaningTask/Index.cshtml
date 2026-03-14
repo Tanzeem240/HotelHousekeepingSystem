@@ -14,9 +14,18 @@
     @foreach (var task in Model)
     {
         <tr>
-            <td>@task.RoomId</td>
+            <td>@task.Room.RoomNumber</td>
             <td>@task.Status</td>
+            
+            <td>
+                <a asp-controller="CleaningTask"
+                   asp-action="Complete"
+                   asp-route-id="@task.Id"
+                   class="btn btn-success btn-sm">
+                    Mark Complete
+                </a>
+            </td>
         </tr>
     }
     </tbody>
-</table>
+</table>1

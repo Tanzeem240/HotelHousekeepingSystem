@@ -10,4 +10,5 @@ namespace HotelHousekeepingSystem.Models;
         public string Status { get; set; } = "Pending";
 
         public int AssignedToUserId { get; set; }
+        public Room? Room{ get; set; }
     }
