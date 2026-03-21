@@ -1,44 +1,49 @@
-﻿using HotelHousekeepingSystem.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using HotelHousekeepingSystem.Data;
+using HotelHousekeepingSystem.Models;
 
-namespace HotelHousekeepingSystem.Controllers;
-
-public class CleaningTaskController : Controller
+namespace HotelHousekeepingSystem.Controllers
 {
-    private readonly ApplicationDbContext _context;
-
-    public CleaningTaskController(ApplicationDbContext context)
+    public class CleaningTaskController : Controller
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    public IActionResult Index()
-    {
-        var tasks = _context.CleaningTasks
-            .Include(t => t.Room)
-            .ToList();
-
-        return View(tasks);
-    }
-    
-    public IActionResult Complete(int id)
-    {
-        var task = _context.CleaningTasks.Find(id);
-
-        if (task != null)
+        public CleaningTaskController(ApplicationDbContext context)
         {
-            task.Status = "Completed";
-
-            var room = _context.Rooms.Find(task.RoomId);
-            if (room != null)
-            {
-                room.Status = "Available";
-            }
-
-            _context.SaveChanges();
+            _context = context;
         }
 
-        return RedirectToAction("Index");
+        public async Task<IActionResult> Index()
+        {
+            var tasks = await _context.CleaningTasks.Include(t => t.Room).ToListAsync();
+            return View(tasks);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var task = await _context.CleaningTasks.Include(t => t.Room).FirstOrDefaultAsync(t => t.Id == id);
+            if (task != null && task.Room != null)
+            {
+                task.IsInspected = true;
+                task.Room.Status = "Available"; 
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReportIssue(int id, string notes)
+        {
+            var task = await _context.CleaningTasks.FindAsync(id);
+            if (task != null)
+            {
+                task.MaintenanceNotes = notes;
+                task.Status = "Maintenance Required"; 
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

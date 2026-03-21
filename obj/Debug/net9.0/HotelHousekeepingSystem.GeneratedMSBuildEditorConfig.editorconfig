@@ -17,53 +17,53 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HotelHousekeepingSystem
 build_property.RootNamespace = HotelHousekeepingSystem
-build_property.ProjectDir = C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\HotelHousekeepingSystem\
+build_property.ProjectDir = /Users/davitisidana/Downloads/HotelHousekeepingSystem/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\HotelHousekeepingSystem
+build_property.MSBuildProjectDirectory = /Users/davitisidana/Downloads/HotelHousekeepingSystem
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/CleaningTask/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xlYW5pbmdUYXNrXEluZGV4LmNzaHRtbA==
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/CleaningTask/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2xlYW5pbmdUYXNrL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/Room/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxDcmVhdGUuY3NodG1s
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/Room/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9vbS9DcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/Room/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxJbmRleC5jc2h0bWw=
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/Room/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9vbS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tanze/OneDrive/Desktop/Winter 2026/COMP2154/HotelHousekeepingSystem/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-s2b1ki9j4o
+[/Users/davitisidana/Downloads/HotelHousekeepingSystem/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-dndq23ovvc
