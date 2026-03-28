@@ -16,7 +16,15 @@ namespace HotelHousekeepingSystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var tasks = await _context.CleaningTasks.Include(t => t.Room).ToListAsync();
+            var tasks = await _context.CleaningTasks
+                .Include(t => t.Room)
+                .Include(t => t.AssignedUser) // 🔥 IMPORTANT
+                .ToListAsync();
+
+            var users = await _context.Users.ToListAsync();
+
+            ViewBag.Users = users;
+
             return View(tasks);
         }
 
@@ -27,6 +35,7 @@ namespace HotelHousekeepingSystem.Controllers
             if (task != null && task.Room != null)
             {
                 task.IsInspected = true;
+                task.Status = "Completed"; 
                 task.Room.Status = "Available"; 
                 await _context.SaveChangesAsync();
             }
@@ -43,6 +52,20 @@ namespace HotelHousekeepingSystem.Controllers
                 task.Status = "Maintenance Required"; 
                 await _context.SaveChangesAsync();
             }
+            return RedirectToAction(nameof(Index));
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Assign(int taskId, int userId)
+        {
+            var task = await _context.CleaningTasks.FindAsync(taskId);
+
+            if (task != null)
+            {
+                task.AssignedUserId = userId;
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }

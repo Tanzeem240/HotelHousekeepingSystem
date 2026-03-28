@@ -7,6 +7,8 @@
     <tr>
         <th>Room ID</th>
         <th>Status</th>
+        <th>Assigned To</th>
+        <th>Assign Worker</th>
     </tr>
     </thead>
 
@@ -15,17 +17,63 @@
     {
         <tr>
             <td>@task.Room.RoomNumber</td>
-            <td>@task.Status</td>
+            <td>
+                @if (task.Status == "Pending")
+                {
+                    <span class="badge bg-warning text-dark">Pending</span>
+                }
+                else if (task.Status == "Completed")
+                {
+                    <span class="badge bg-success">Completed</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">@task.Status</span>
+                }
+            </td>
+
+            <!-- Assigned User -->
+            <td>
+                @(task.AssignedUser != null ? task.AssignedUser.Name : "Not Assigned")
+            </td>
             
             <td>
-                <a asp-controller="CleaningTask"
-                   asp-action="Complete"
-                   asp-route-id="@task.Id"
-                   class="btn btn-success btn-sm">
-                    Mark Complete
-                </a>
+                @if (task.Status == "Completed")
+                {
+                    <!-- After approve -->
+                    <span class="text-success">Completed</span>
+                }
+                else if (task.AssignedUserId == null)
+                {
+                    <!-- Show Assign -->
+                    <form asp-action="Assign" method="post">
+                        <input type="hidden" name="taskId" value="@task.Id" />
+
+                        <select name="userId" class="form-control">
+                            @foreach (var user in ViewBag.Users)
+                            {
+                                <option value="@user.Id">@user.Name</option>
+                            }
+                        </select>
+
+                        <button type="submit" class="btn btn-primary btn-sm mt-1">
+                            Assign
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <!-- Show Approve -->
+                    <form asp-action="Approve" method="post">
+                        <input type="hidden" name="id" value="@task.Id" />
+
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Approve
+                        </button>
+                    </form>
+                }
             </td>
         </tr>
     }
     </tbody>
-</table>1
+</table>

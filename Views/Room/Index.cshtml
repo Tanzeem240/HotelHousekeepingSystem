@@ -22,23 +22,43 @@
             <td>@room.RoomNumber</td>
 
             <td>
-                <span class="badge bg-info">@room.Status</span>
+                @if (room.Status == "Available")
+                {
+                    <span class="badge bg-success">Available</span>
+                }
+                else if (room.Status == "Occupied")
+                {
+                    <span class="badge bg-warning text-dark">Occupied</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Dirty</span>
+                }
             </td>
 
             <td>
-                <a asp-controller="Room"
-                   asp-action="CheckIn"
-                   asp-route-id="@room.Id"
-                   class="btn btn-success btn-sm">
-                    Check In
-                </a>
-
-                <a asp-controller="Room"
-                   asp-action="CheckOut"
-                   asp-route-id="@room.Id"
-                   class="btn btn-danger btn-sm">
-                    Check Out
-                </a>
+                @if (room.Status == "Available")
+                {
+                    <a asp-controller="Room"
+                       asp-action="CheckIn"
+                       asp-route-id="@room.Id"
+                       class="btn btn-success btn-sm">
+                        Check In
+                    </a>
+                }
+                else if (room.Status == "Occupied")
+                {
+                    <a asp-controller="Room"
+                       asp-action="CheckOut"
+                       asp-route-id="@room.Id"
+                       class="btn btn-danger btn-sm">
+                        Check Out
+                    </a>
+                }
+                else
+                {
+                    <span class="text-muted">No Action</span>
+                }
             </td>
         </tr>
     }
