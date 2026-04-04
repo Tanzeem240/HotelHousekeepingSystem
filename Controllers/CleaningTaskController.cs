@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using HotelHousekeepingSystem.Data;
 using HotelHousekeepingSystem.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace HotelHousekeepingSystem.Controllers
 {
@@ -9,6 +10,18 @@ namespace HotelHousekeepingSystem.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var user = context.HttpContext.Session.GetString("UserName");
+
+            if (string.IsNullOrEmpty(user))
+            {
+                context.Result = new RedirectToActionResult("Login", "Auth", null);
+            }
+
+            base.OnActionExecuting(context);
+        }
+        
         public CleaningTaskController(ApplicationDbContext context)
         {
             _context = context;

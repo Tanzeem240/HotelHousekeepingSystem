@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1+vs83C8NNU=",
+  "dgSpecHash": "BAsf2R2DKRM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\tanze\\RiderProjects\\HotelHousekeepingSystem\\HotelHousekeepingSystem.csproj",
+  "projectFilePath": "C:\\Users\\tanze\\OneDrive\\Desktop\\Winter 2026\\COMP2154\\Housekeeping\\HotelHousekeepingSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tanze\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\tanze\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

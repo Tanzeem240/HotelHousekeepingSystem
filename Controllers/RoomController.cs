@@ -1,12 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HotelHousekeepingSystem.Data;
 using HotelHousekeepingSystem.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace HotelHousekeepingSystem.Controllers;
+
     public class RoomController : Controller
     {
+        
         private readonly ApplicationDbContext _context;
 
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var user = context.HttpContext.Session.GetString("UserName");
+
+            if (string.IsNullOrEmpty(user))
+            {
+                context.Result = new RedirectToActionResult("Login", "Auth", null);
+            }
+
+            base.OnActionExecuting(context);
+        }
+        
         public RoomController(ApplicationDbContext context)
         {
             _context = context;

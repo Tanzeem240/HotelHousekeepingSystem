@@ -10,4 +10,8 @@ public class User
     public string Name { get; set; }
 
     public string Role { get; set; }
+
+    public DateTime? ClockInTime{ get; set; }
+    
+    public DateTime? ClockOutTime { get; set; }
 }
