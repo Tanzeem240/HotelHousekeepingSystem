@@ -38,41 +38,78 @@
             </td>
             
             <td>
-                @if (task.Status == "Completed")
-                {
-                    <!-- After approve -->
-                    <span class="text-success">Completed</span>
-                }
-                else if (task.AssignedUserId == null)
-                {
-                    <!-- Show Assign -->
-                    <form asp-action="Assign" method="post">
-                        <input type="hidden" name="taskId" value="@task.Id" />
 
-                        <select name="userId" class="form-control">
-                            @foreach (var user in ViewBag.Users)
-                            {
-                                <option value="@user.Id">@user.Name</option>
-                            }
-                        </select>
+    @if (Context.Session.GetString("UserRole") == "Manager")
+    {
+        if (task.Status == "Completed")
+        {
+            <span class="text-success">Completed</span>
+        }
+        else if (task.AssignedUserId == null)
+        {
+            <!-- Assign -->
+            <form asp-action="Assign" method="post">
+                <input type="hidden" name="taskId" value="@task.Id" />
 
-                        <button type="submit" class="btn btn-primary btn-sm mt-1">
-                            Assign
-                        </button>
-                    </form>
-                }
-                else
-                {
-                    <!-- Show Approve -->
-                    <form asp-action="Approve" method="post">
-                        <input type="hidden" name="id" value="@task.Id" />
+                <select name="userId" class="form-control">
+                    @foreach (var user in ViewBag.Users)
+                    {
+                        <option value="@user.Id">@user.Name</option>
+                    }
+                </select>
 
-                        <button type="submit" class="btn btn-success btn-sm">
-                            Approve
-                        </button>
-                    </form>
-                }
-            </td>
+                <button type="submit" class="btn btn-primary btn-sm mt-1">
+                    Assign
+                </button>
+            </form>
+        }
+        else if (task.Status == "Assigned")
+        {
+            <!-- Worker cleans -->
+            <form asp-action="MarkCleaned" method="post">
+                <input type="hidden" name="id" value="@task.Id" />
+
+                <button type="submit" class="btn btn-warning btn-sm">
+                    Mark Cleaned
+                </button>
+            </form>
+        }
+        else if (task.Status == "Ready")
+        {
+            <!-- Manager approves -->
+            <form asp-action="Approve" method="post">
+                <input type="hidden" name="id" value="@task.Id" />
+
+                <button type="submit" class="btn btn-success btn-sm">
+                    Approve
+                </button>
+            </form>
+        }
+    }
+    else
+    {
+        <!-- Worker view -->
+        if (task.Status == "Assigned")
+        {
+            <form asp-action="MarkCleaned" method="post">
+                <input type="hidden" name="id" value="@task.Id" />
+
+                <button type="submit" class="btn btn-warning btn-sm">
+                    Mark Cleaned
+                </button>
+            </form>
+        }
+        else if (task.Status == "Completed")
+        {
+            <span class="text-success">Completed</span>
+        }
+        else
+        {
+            <span class="text-muted">No permission</span>
+        }
+    }
+
+</td>
         </tr>
     }
     </tbody>

@@ -105,6 +105,30 @@ namespace HotelHousekeepingSystem.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("HotelHousekeepingSystem.Models.WorkSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ClockInTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ClockOutTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WorkSessions");
+                });
+
             modelBuilder.Entity("HotelHousekeepingSystem.Models.CleaningTask", b =>
                 {
                     b.HasOne("HotelHousekeepingSystem.Models.User", "AssignedUser")
@@ -120,6 +144,17 @@ namespace HotelHousekeepingSystem.Migrations
                     b.Navigation("AssignedUser");
 
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("HotelHousekeepingSystem.Models.WorkSession", b =>
+                {
+                    b.HasOne("HotelHousekeepingSystem.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

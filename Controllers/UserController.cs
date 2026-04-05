@@ -2,6 +2,7 @@
 using HotelHousekeepingSystem.Data;
 using HotelHousekeepingSystem.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelHousekeepingSystem.Controllers;
     public class UserController : Controller
@@ -28,14 +29,29 @@ namespace HotelHousekeepingSystem.Controllers;
         // Show all users
         public IActionResult Index()
         {
-            var users = _context.Users.ToList();
-            return View(users);
-        }
+            var role = HttpContext.Session.GetString("UserRole");
+            var name = HttpContext.Session.GetString("UserName");
 
-        // Show create form
-        public IActionResult Create()
-        {
-            return View();
+            var user = _context.Users.FirstOrDefault(u => u.Name == name);
+
+            if (user == null) return NotFound();
+
+            if (role == "Manager")
+            {
+                var users = _context.Users
+                    .Include(u => u.WorkerProfile) //  important
+                    .ToList();
+
+                return View(users);
+            }
+            else
+            {
+                var singleUser = _context.Users
+                    .Include(u => u.WorkerProfile)
+                    .FirstOrDefault(u => u.Id == user.Id);
+
+                return View("Details", singleUser);
+            }
         }
 
         // Save user

@@ -14,4 +14,6 @@ public class User
     public DateTime? ClockInTime{ get; set; }
     
     public DateTime? ClockOutTime { get; set; }
+    
+    public WorkerProfile WorkerProfile { get; set; }
 }
