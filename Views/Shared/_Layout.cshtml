@@ -40,11 +40,14 @@
                             Housekeeping
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="User" asp-action="Index">
-                            Workers
-                        </a>
-                    </li>
+                    @if (Context.Session.GetString("UserRole") == "Manager")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="Index">
+                                Workers
+                            </a>
+                        </li>
+                    }
 
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -64,6 +67,12 @@
                                         Role: @Context.Session.GetString("UserRole")
                                     </span>
                                 </li>
+
+                                <li>
+                                    <a class="dropdown-item" asp-controller="WorkerProfile" asp-action="Index">My Profile</a>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
 
                                 <li>
                                     <a class="dropdown-item" href="/User/ClockIn">Clock In</a>

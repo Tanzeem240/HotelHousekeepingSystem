@@ -1,130 +1,88 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HotelHousekeepingSystem.Data;
 using HotelHousekeepingSystem.Models;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelHousekeepingSystem.Controllers;
-    public class UserController : Controller
+
+[RequireRole]
+public class UserController : Controller
+{
+    private readonly ApplicationDbContext _context;
+
+    public UserController(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
-
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            var user = context.HttpContext.Session.GetString("UserName");
-
-            if (string.IsNullOrEmpty(user))
-            {
-                context.Result = new RedirectToActionResult("Login", "Auth", null);
-            }
-
-            base.OnActionExecuting(context);
-        }
-        
-        public UserController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        // Show all users
-        public IActionResult Index()
-        {
-            var role = HttpContext.Session.GetString("UserRole");
-            var name = HttpContext.Session.GetString("UserName");
-
-            var user = _context.Users.FirstOrDefault(u => u.Name == name);
-
-            if (user == null) return NotFound();
-
-            if (role == "Manager")
-            {
-                var users = _context.Users
-                    .Include(u => u.WorkerProfile) //  important
-                    .ToList();
-
-                return View(users);
-            }
-            else
-            {
-                var singleUser = _context.Users
-                    .Include(u => u.WorkerProfile)
-                    .FirstOrDefault(u => u.Id == user.Id);
-
-                return View("Details", singleUser);
-            }
-        }
-
-        // Save user
-        [HttpPost]
-        public IActionResult Create(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(user);
-        }
-        
-        public IActionResult ClockIn()
-        {
-            var name = HttpContext.Session.GetString("UserName");
-            var user = _context.Users.FirstOrDefault(u => u.Name == name);
-
-            if (user != null)
-            {
-                if (user.ClockInTime != null && user.ClockOutTime == null)
-                {
-                    return RedirectToAction("Index", "Room");
-                }
-                
-                user.ClockInTime = DateTime.UtcNow;
-                user.ClockOutTime = null; // reset previous session
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("Index", "Room");
-        }
-
-        public IActionResult ClockOut()
-        {
-            var name = HttpContext.Session.GetString("UserName");
-            var user = _context.Users.FirstOrDefault(u => u.Name == name);
-
-            if (user != null)
-            {
-                if (user.ClockInTime == null || user.ClockOutTime != null)
-                {
-                    // cannot clock out without clocking in
-                    return RedirectToAction("Index", "Room");
-                }
-
-                user.ClockOutTime = DateTime.UtcNow;
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("Index", "Room");
-        }
-        
-        public IActionResult WorkSummary()
-        {
-            var name = HttpContext.Session.GetString("UserName");
-
-            var user = _context.Users.FirstOrDefault(u => u.Name == name);
-
-            if (user != null && user.ClockInTime != null && user.ClockOutTime != null)
-            {
-                var hours = (user.ClockOutTime - user.ClockInTime)?.TotalHours;
-
-                ViewBag.WorkHours = Math.Round(hours ?? 0, 2);
-            }
-            else
-            {
-                ViewBag.WorkHours = 0;
-            }
-
-            return View();
-        }
+        _context = context;
     }
+
+    // Workers page — manager only, shows ALL users with profile details
+    [RequireRole("Manager")]
+    public IActionResult Index()
+    {
+        var users = _context.Users
+            .Include(u => u.WorkerProfile)
+            .OrderBy(u => u.Role)
+            .ThenBy(u => u.Name)
+            .ToList();
+        return View(users);
+    }
+
+    [RequireRole("Manager")]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [RequireRole("Manager")]
+    public IActionResult Create(User user)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        return View(user);
+    }
+
+    public IActionResult ClockIn()
+    {
+        var name = HttpContext.Session.GetString("UserName");
+        var user = _context.Users.FirstOrDefault(u => u.Name == name);
+        if (user != null)
+        {
+            if (user.ClockInTime != null && user.ClockOutTime == null)
+                return RedirectToAction("Index", "Room");
+            user.ClockInTime  = DateTime.UtcNow;
+            user.ClockOutTime = null;
+            _context.SaveChanges();
+        }
+        return RedirectToAction("Index", "Room");
+    }
+
+    public IActionResult ClockOut()
+    {
+        var name = HttpContext.Session.GetString("UserName");
+        var user = _context.Users.FirstOrDefault(u => u.Name == name);
+        if (user != null)
+        {
+            if (user.ClockInTime == null || user.ClockOutTime != null)
+                return RedirectToAction("Index", "Room");
+            user.ClockOutTime = DateTime.UtcNow;
+            _context.SaveChanges();
+        }
+        return RedirectToAction("Index", "Room");
+    }
+
+    public IActionResult WorkSummary()
+    {
+        var name = HttpContext.Session.GetString("UserName");
+        var user = _context.Users.FirstOrDefault(u => u.Name == name);
+        if (user != null && user.ClockInTime != null && user.ClockOutTime != null)
+            ViewBag.WorkHours = Math.Round((user.ClockOutTime - user.ClockInTime)?.TotalHours ?? 0, 2);
+        else
+            ViewBag.WorkHours = 0;
+        return View();
+    }
+}

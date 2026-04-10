@@ -1,23 +1,62 @@
-﻿<h2>Register</h2>
+﻿@{
+    ViewData["Title"] = "Register";
+}
 
-<form method="post">
-    <div>
-        <label>Name</label>
-        <input name="Name" required />
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Create Account</h4>
+            </div>
+            <div class="card-body">
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                <form method="post">
+
+                    <h6 class="text-muted mb-3">Account Info</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                        <input name="Name" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Role <span class="text-danger">*</span></label>
+                        <select name="Role" class="form-select" required>
+                            <option value="Worker">Worker</option>
+                            <option value="Manager">Manager</option>
+                        </select>
+                    </div>
+
+                    <hr />
+                    <h6 class="text-muted mb-3">Personal Details</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nationality <span class="text-danger">*</span></label>
+                        <input name="Nationality" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                        <input name="PhoneNumber" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                        <input name="Email" type="email" class="form-control" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+
+            </div>
+            <div class="card-footer text-center">
+                Already have an account? <a asp-controller="Auth" asp-action="Login">Login here</a>
+            </div>
+        </div>
     </div>
-
-    <div>
-        <label>Role</label>
-        <select name="Role">
-            <option value="Worker">Worker</option>
-            <option value="Manager">Manager</option>
-        </select>
-    </div>
-
-    <button type="submit">Register</button>
-</form>
-
-<p>
-    Already have an account? 
-    <a href="/Auth/Login">Login</a>
-</p>
+</div>

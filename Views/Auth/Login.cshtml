@@ -1,17 +1,36 @@
-﻿<h2>Login</h2>
+﻿@{
+    ViewData["Title"] = "Login";
+}
 
-<form method="post">
-    <div>
-        <label>Name</label>
-        <input name="name" required />
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Login</h4>
+            </div>
+            <div class="card-body">
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Success"]</div>
+                }
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input name="name" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+
+            </div>
+            <div class="card-footer text-center">
+                Don't have an account? <a asp-controller="Auth" asp-action="Register">Register here</a>
+            </div>
+        </div>
     </div>
-
-    <button type="submit">Login</button>
-</form>
-
-<p style="color:red">@ViewBag.Error</p>
-
-<p>
-    Don't have an account? 
-    <a href="/Auth/Register">Register here</a>
-</p>
+</div>

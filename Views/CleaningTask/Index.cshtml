@@ -1,7 +1,18 @@
 ﻿@model IEnumerable<HotelHousekeepingSystem.Models.CleaningTask>
 
+@{
+    bool isManager = ViewBag.IsManager == true;
+    int currentUserId = ViewBag.CurrentUserId ?? 0;
+}
+
 <h2>Housekeeping Tasks</h2>
 
+@if (!Model.Any())
+{
+    <div class="alert alert-info mt-3">No tasks to display.</div>
+}
+else
+{
 <table class="table table-striped">
     <thead>
     <tr>
@@ -22,6 +33,14 @@
                 {
                     <span class="badge bg-warning text-dark">Pending</span>
                 }
+                else if (task.Status == "Assigned")
+                {
+                    <span class="badge bg-primary">Assigned</span>
+                }
+                else if (task.Status == "Ready")
+                {
+                    <span class="badge bg-info text-dark">Ready</span>
+                }
                 else if (task.Status == "Completed")
                 {
                     <span class="badge bg-success">Completed</span>
@@ -32,85 +51,64 @@
                 }
             </td>
 
-            <!-- Assigned User -->
-            <td>
-                @(task.AssignedUser != null ? task.AssignedUser.Name : "Not Assigned")
-            </td>
-            
-            <td>
+            <td>@(task.AssignedUser != null ? task.AssignedUser.Name : "Not Assigned")</td>
 
-    @if (Context.Session.GetString("UserRole") == "Manager")
-    {
-        if (task.Status == "Completed")
-        {
-            <span class="text-success">Completed</span>
-        }
-        else if (task.AssignedUserId == null)
-        {
-            <!-- Assign -->
-            <form asp-action="Assign" method="post">
-                <input type="hidden" name="taskId" value="@task.Id" />
-
-                <select name="userId" class="form-control">
-                    @foreach (var user in ViewBag.Users)
+            <td>
+                @if (isManager)
+                {
+                    @* Manager: assign dropdown when pending *@
+                    if (task.Status == "Pending" && task.AssignedUserId == null)
                     {
-                        <option value="@user.Id">@user.Name</option>
+                        <form asp-action="Assign" method="post" class="d-flex gap-2 align-items-center">
+                            <input type="hidden" name="taskId" value="@task.Id" />
+                            <select name="userId" class="form-select form-select-sm" style="max-width:160px">
+                                @foreach (var user in ViewBag.Users)
+                                {
+                                    <option value="@user.Id">@user.Name</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm">Assign</button>
+                        </form>
                     }
-                </select>
-
-                <button type="submit" class="btn btn-primary btn-sm mt-1">
-                    Assign
-                </button>
-            </form>
-        }
-        else if (task.Status == "Assigned")
-        {
-            <!-- Worker cleans -->
-            <form asp-action="MarkCleaned" method="post">
-                <input type="hidden" name="id" value="@task.Id" />
-
-                <button type="submit" class="btn btn-warning btn-sm">
-                    Mark Cleaned
-                </button>
-            </form>
-        }
-        else if (task.Status == "Ready")
-        {
-            <!-- Manager approves -->
-            <form asp-action="Approve" method="post">
-                <input type="hidden" name="id" value="@task.Id" />
-
-                <button type="submit" class="btn btn-success btn-sm">
-                    Approve
-                </button>
-            </form>
-        }
-    }
-    else
-    {
-        <!-- Worker view -->
-        if (task.Status == "Assigned")
-        {
-            <form asp-action="MarkCleaned" method="post">
-                <input type="hidden" name="id" value="@task.Id" />
-
-                <button type="submit" class="btn btn-warning btn-sm">
-                    Mark Cleaned
-                </button>
-            </form>
-        }
-        else if (task.Status == "Completed")
-        {
-            <span class="text-success">Completed</span>
-        }
-        else
-        {
-            <span class="text-muted">No permission</span>
-        }
-    }
-
-</td>
+                    @* Manager: approve when worker has marked Ready *@
+                    else if (task.Status == "Ready")
+                    {
+                        <form asp-action="Approve" method="post">
+                            <input type="hidden" name="id" value="@task.Id" />
+                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                        </form>
+                    }
+                    else if (task.Status == "Completed")
+                    {
+                        <span class="text-success">&#10003; Completed</span>
+                    }
+                    else if (task.Status == "Assigned")
+                    {
+                        <span class="text-muted small">Waiting for worker</span>
+                    }
+                }
+                else
+                {
+                    @* Worker: Mark Cleaned only on their own assigned task *@
+                    if (task.Status == "Assigned" && task.AssignedUserId == currentUserId)
+                    {
+                        <form asp-action="MarkCleaned" method="post">
+                            <input type="hidden" name="id" value="@task.Id" />
+                            <button type="submit" class="btn btn-warning btn-sm">Mark Cleaned</button>
+                        </form>
+                    }
+                    else if (task.Status == "Ready")
+                    {
+                        <span class="text-info small">Awaiting approval</span>
+                    }
+                    else if (task.Status == "Completed")
+                    {
+                        <span class="text-success small">&#10003; Done</span>
+                    }
+                }
+            </td>
         </tr>
     }
     </tbody>
 </table>
+}
