@@ -10,4 +10,7 @@ public class Room
     public int RoomNumber { get; set; }
 
     public string Status { get; set; } = "Available";
+
+    // NEW: room category
+    public string Category { get; set; } = "Regular";
 }

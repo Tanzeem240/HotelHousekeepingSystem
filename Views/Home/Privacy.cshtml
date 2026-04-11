@@ -1,6 +1,142 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+@{
+    ViewData["Title"] = "About & Team";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<!-- Hero -->
+<div class="text-center py-4 mb-4">
+    <span style="font-size:48px;">&#127968;</span>
+    <h1 class="fw-bold mt-2">Hotel Housekeeping System</h1>
+    <p class="text-muted">COMP 2154 — System Development Project &nbsp;·&nbsp; Group 24 &nbsp;·&nbsp; Winter 2026</p>
+</div>
+
+<!-- About the System -->
+<div class="row mb-5">
+    <div class="col-md-8 mx-auto">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-3">About the System</h4>
+                <p>
+                    The <strong>Hotel Housekeeping & Room Status Management System</strong> is a
+                    web-based internal application designed to centralize housekeeping workflows,
+                    automate room status transitions, and provide real-time operational visibility
+                    to hotel staff.
+                </p>
+                <p>
+                    The system replaces manual paper-based processes and verbal communication
+                    with a structured digital workflow — reducing delays, improving accountability,
+                    and giving management the data they need to operate efficiently.
+                </p>
+                <h6 class="fw-bold mt-4 mb-2">Key Features</h6>
+                <ul class="text-muted">
+                    <li>Role-based access control (Manager &amp; Worker)</li>
+                    <li>Room lifecycle management (Available → Occupied → Dirty → Available)</li>
+                    <li>Automatic housekeeping task creation on guest check-out</li>
+                    <li>Task assignment, cleaning, and approval workflow</li>
+                    <li>Room categories (Regular, Deluxe, Suite, Presidential)</li>
+                    <li>Cleaning time tracking and analytics graph</li>
+                    <li>Worker profiles and staff directory</li>
+                    <li>Clock in/out and work summary for all staff</li>
+                    <li>Daily operational reports</li>
+                </ul>
+                <h6 class="fw-bold mt-4 mb-2">Technology Stack</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge bg-dark">ASP.NET Core MVC (.NET 9)</span>
+                    <span class="badge bg-primary">C#</span>
+                    <span class="badge bg-success">PostgreSQL</span>
+                    <span class="badge bg-info text-dark">Entity Framework Core</span>
+                    <span class="badge bg-secondary">Supabase</span>
+                    <span class="badge bg-warning text-dark">Bootstrap 5</span>
+                    <span class="badge bg-danger">Chart.js</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Team -->
+<h3 class="text-center fw-bold mb-4">Meet the Team</h3>
+<div class="row g-4 justify-content-center mb-5">
+
+    <!-- Member 1 -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center p-4">
+                <div class="rounded-circle bg-dark text-white d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:80px;height:80px;font-size:28px;">
+                    TS
+                </div>
+                <h5 class="fw-bold mb-1">Tanzeem Shaikh</h5>
+                <p class="text-muted small mb-2">Student ID: 101585484</p>
+                <span class="badge bg-primary mb-3">Backend Lead</span>
+                <hr />
+                <p class="text-muted small text-start mb-0">
+                    Responsible for controllers and business logic, database schema design,
+                    PostgreSQL integration, role-based access control, room lifecycle
+                    validation, task automation, authentication system, and overall
+                    backend architecture.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member 2 -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center p-4">
+                <div class="rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:80px;height:80px;font-size:28px;">
+                    DS
+                </div>
+                <h5 class="fw-bold mb-1">Daviti Sidana</h5>
+                <p class="text-muted small mb-2">Student ID: 101540372</p>
+                <span class="badge bg-success mb-3">Frontend Lead</span>
+                <hr />
+                <p class="text-muted small text-start mb-0">
+                    Responsible for user interface development using HTML, CSS, and Razor views,
+                    dashboard layout and design, form handling, worker profile UI,
+                    usability improvements, and visual feedback across the application.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Course Info -->
+<div class="row mb-5">
+    <div class="col-md-8 mx-auto">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Project Information</h5>
+                <div class="row">
+                    <div class="col-sm-4 text-muted">Course</div>
+                    <div class="col-sm-8">COMP 2154 — System Development Project</div>
+                    <div class="col-sm-4 text-muted mt-2">Section</div>
+                    <div class="col-sm-8 mt-2">CRN 60124</div>
+                    <div class="col-sm-4 text-muted mt-2">Term</div>
+                    <div class="col-sm-8 mt-2">Winter 2026</div>
+                    <div class="col-sm-4 text-muted mt-2">Institution</div>
+                    <div class="col-sm-8 mt-2">George Brown College</div>
+                    <div class="col-sm-4 text-muted mt-2">Team</div>
+                    <div class="col-sm-8 mt-2">Group 24</div>
+                    <div class="col-sm-4 text-muted mt-2">Repository</div>
+                    <div class="col-sm-8 mt-2">
+                        <a href="https://github.com/Tanzeem240/HotelHousekeepingSystem"
+                           target="_blank">github.com/Tanzeem240/HotelHousekeepingSystem</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mb-4">
+    @if (Context.Session.GetString("UserName") == null)
+    {
+        <a asp-controller="Auth" asp-action="Login" class="btn btn-primary px-5">Login to System</a>
+    }
+    else
+    {
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark px-5">Back to Dashboard</a>
+    }
+</div>

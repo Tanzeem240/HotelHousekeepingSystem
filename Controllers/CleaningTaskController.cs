@@ -48,7 +48,8 @@ public class CleaningTaskController : Controller
         if (task.AssignedUserId != null) return BadRequest("Already assigned");
 
         task.AssignedUserId = userId;
-        task.Status = "Assigned";
+        task.Status     = "Assigned";
+        task.AssignedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
@@ -81,7 +82,8 @@ public class CleaningTaskController : Controller
         if (task.Status == "Completed") return BadRequest("Already completed");
 
         task.IsInspected = true;
-        task.Status = "Completed";
+        task.Status      = "Completed";
+        task.CompletedAt = DateTime.UtcNow;
         task.Room.Status = "Available";
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));

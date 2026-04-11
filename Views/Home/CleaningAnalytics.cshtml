@@ -1,0 +1,201 @@
+﻿@{
+    ViewData["Title"] = "Cleaning Time Analytics";
+    var tasks = ViewBag.Tasks as List<HotelHousekeepingSystem.Models.CleaningTask>
+                ?? new List<HotelHousekeepingSystem.Models.CleaningTask>();
+
+    var durations = tasks
+        .Where(t => t.CleaningDurationMinutes.HasValue)
+        .Select(t => t.CleaningDurationMinutes!.Value)
+        .ToList();
+
+    double avg     = durations.Any() ? Math.Round(durations.Average(), 1) : 0;
+    double fastest = durations.Any() ? Math.Round(durations.Min(), 1)     : 0;
+    double slowest = durations.Any() ? Math.Round(durations.Max(), 1)     : 0;
+
+    var workerGroups = tasks
+        .Where(t => t.AssignedUser != null && t.CleaningDurationMinutes.HasValue)
+        .GroupBy(t => t.AssignedUser!.Name)
+        .Select(g => new {
+            Name  = g.Key,
+            Avg   = Math.Round(g.Average(t => t.CleaningDurationMinutes!.Value), 1),
+            Count = g.Count()
+        })
+        .OrderBy(g => g.Avg)
+        .ToList();
+
+    var taskLabelsJs  = string.Join(",", tasks.Select(t => "\"Room " + t.Room?.RoomNumber + "\""));
+    var taskMinsJs    = string.Join(",", tasks.Select(t => Math.Round(t.CleaningDurationMinutes ?? 0, 1).ToString("F1")));
+    var workerNamesJs = string.Join(",", workerGroups.Select(g => "\"" + g.Name + " (" + g.Count + " tasks)\""));
+    var workerAvgsJs  = string.Join(",", workerGroups.Select(g => g.Avg.ToString("F1")));
+    var avgJs         = avg.ToString("F1");
+}
+
+<h2 class="mt-3">Cleaning Time Analytics</h2>
+<p class="text-muted">Time taken to clean each room (completed tasks)</p>
+
+@if (!tasks.Any())
+{
+    <div class="alert alert-info mt-3">
+        No completed tasks with timing data yet.
+        Data will appear here once tasks are assigned and approved.
+    </div>
+}
+else
+{
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center border-primary shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">@tasks.Count</h2>
+                    <p class="card-text text-muted mb-0">Completed Tasks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-success shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-success">@fastest <small class="fs-6">min</small></h2>
+                    <p class="card-text text-muted mb-0">Fastest Clean</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-warning shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-warning">@avg <small class="fs-6">min</small></h2>
+                    <p class="card-text text-muted mb-0">Average Time</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-danger shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-danger">@slowest <small class="fs-6">min</small></h2>
+                    <p class="card-text text-muted mb-0">Slowest Clean</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <strong>Cleaning Duration per Task</strong>
+            <span class="text-muted small">Last 50 completed tasks</span>
+        </div>
+        <div class="card-body">
+            <canvas id="cleaningChart" style="max-height:350px;"></canvas>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header"><strong>Average Cleaning Time by Worker</strong></div>
+        <div class="card-body">
+            <canvas id="workerChart" style="max-height:300px;"></canvas>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header"><strong>Task Detail</strong></div>
+        <div class="card-body p-0">
+            <table class="table table-striped table-sm mb-0">
+                <thead class="table-dark">
+                <tr>
+                    <th>Room</th><th>Category</th><th>Worker</th>
+                    <th>Assigned At</th><th>Completed At</th><th>Duration</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var t in tasks)
+                {
+                    var mins = (int)(t.CleaningDurationMinutes ?? 0);
+                    var dur  = mins < 60 ? mins + " min" : (mins / 60) + "h " + (mins % 60) + "min";
+                    var rc   = mins > avg * 1.5 ? "table-danger" : mins < avg * 0.5 ? "table-success" : "";
+                    <tr class="@rc">
+                        <td><strong>@t.Room?.RoomNumber</strong></td>
+                        <td><span class="badge bg-secondary">@(t.Room?.Category ?? "—")</span></td>
+                        <td>@(t.AssignedUser?.Name ?? "—")</td>
+                        <td>@(t.AssignedAt?.ToLocalTime().ToString("MMM d, h:mm tt"))</td>
+                        <td>@(t.CompletedAt?.ToLocalTime().ToString("MMM d, h:mm tt"))</td>
+                        <td>@dur</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary mb-3">Back to Dashboard</a>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+(function() {
+    var taskLabels  = [@Html.Raw(taskLabelsJs)];
+    var taskMins    = [@Html.Raw(taskMinsJs)];
+    var avgLine     = @Html.Raw(avgJs);
+    var workerNames = [@Html.Raw(workerNamesJs)];
+    var workerAvgs  = [@Html.Raw(workerAvgsJs)];
+
+    var barColors = taskMins.map(function(m) {
+        return m > avgLine * 1.5 ? '#dc3545' : m < avgLine * 0.5 ? '#198754' : '#0d6efd';
+    });
+    var workerColors = workerAvgs.map(function(v, i) {
+        return 'hsl(' + (210 + i * 40) + ', 65%, 55%)';
+    });
+
+    if (document.getElementById('cleaningChart')) {
+        new Chart(document.getElementById('cleaningChart'), {
+            type: 'bar',
+            data: {
+                labels: taskLabels,
+                datasets: [
+                    {
+                        label: 'Cleaning Time (min)',
+                        data: taskMins,
+                        backgroundColor: barColors,
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Average (' + avgLine + ' min)',
+                        data: taskLabels.map(function() { return avgLine; }),
+                        type: 'line',
+                        borderColor: '#ffc107',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Minutes' } }
+                }
+            }
+        });
+    }
+
+    if (document.getElementById('workerChart')) {
+        new Chart(document.getElementById('workerChart'), {
+            type: 'bar',
+            data: {
+                labels: workerNames,
+                datasets: [{
+                    label: 'Avg Cleaning Time (min)',
+                    data: workerAvgs,
+                    backgroundColor: workerColors,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, title: { display: true, text: 'Minutes' } }
+                }
+            }
+        });
+    }
+})();
+</script>

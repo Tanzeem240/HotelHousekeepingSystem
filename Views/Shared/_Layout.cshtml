@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -11,87 +11,138 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HotelHousekeepingSystem</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                &#127968; Hotel Housekeeping
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target=".navbar-collapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                @{
+                    var role     = Context.Session.GetString("UserRole");
+                    var userName = Context.Session.GetString("UserName");
+                    bool loggedIn   = !string.IsNullOrEmpty(userName);
+                    bool isManager  = role == "Manager";
+                    bool isWorker   = role == "Worker";
+                }
+
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
-                            Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
-                            Privacy
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Room" asp-action="Index">
-                            Rooms
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="CleaningTask" asp-action="Index">
-                            Housekeeping
-                        </a>
-                    </li>
-                    @if (Context.Session.GetString("UserRole") == "Manager")
+
+                    @if (!loggedIn)
                     {
+                        <!-- Not logged in: show nothing -->
+                    }
+                    else if (isManager)
+                    {
+                        <!-- MANAGER NAV -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Room" asp-action="Index">
+                                Rooms
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="CleaningTask" asp-action="Index">
+                                Housekeeping
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Maintenance" asp-action="Index">
+                                Maintenance
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="User" asp-action="Index">
-                                Workers
+                                Staff
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="WorkSummary">
+                                Work Summary
+                            </a>
+                        </li>
+
+                        <!-- Reports dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#"
+                               role="button" data-bs-toggle="dropdown">
+                                Reports
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="DailyReport">
+                                        &#128196; Daily Report
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="CleaningAnalytics">
+                                        &#128200; Cleaning Analytics
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else if (isWorker)
+                    {
+                        <!-- WORKER NAV -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="CleaningTask" asp-action="Index">
+                                My Tasks
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Maintenance" asp-action="Index">
+                                Maintenance
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="WorkerProfile" asp-action="Index">
+                                My Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="WorkSummary">
+                                Work Summary
                             </a>
                         </li>
                     }
 
                 </ul>
-                <ul class="navbar-nav ms-auto">
 
-                    @if (Context.Session.GetString("UserName") != null)
+                <!-- Right side: user dropdown -->
+                <ul class="navbar-nav ms-auto">
+                    @if (loggedIn)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="userDropdown"
-                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Hello, <strong>@Context.Session.GetString("UserName")</strong>
+                            <a class="nav-link dropdown-toggle text-dark" href="#"
+                               id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                Hello, <strong>@userName</strong>
                             </a>
-
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-
                                 <li>
-                                    <span class="dropdown-item-text">
-                                        Role: @Context.Session.GetString("UserRole")
+                                    <span class="dropdown-item-text text-muted small">
+                                        Role: @role
                                     </span>
                                 </li>
-
-                                <li>
-                                    <a class="dropdown-item" asp-controller="WorkerProfile" asp-action="Index">My Profile</a>
-                                </li>
-
                                 <li><hr class="dropdown-divider"></li>
-
                                 <li>
-                                    <a class="dropdown-item" href="/User/ClockIn">Clock In</a>
+                                    <a class="dropdown-item" asp-controller="WorkerProfile" asp-action="Index">
+                                        My Profile
+                                    </a>
                                 </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="/User/ClockOut">Clock Out</a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="/User/WorkSummary">Work Summary</a>
-                                </li>
-
                                 <li><hr class="dropdown-divider"></li>
-
                                 <li>
                                     <a class="dropdown-item text-danger" href="/Auth/Logout">Logout</a>
                                 </li>
-
                             </ul>
                         </li>
                     }
@@ -101,12 +152,13 @@
                             <a class="nav-link text-primary" href="/Auth/Login">Login</a>
                         </li>
                     }
-
                 </ul>
+
             </div>
         </div>
     </nav>
 </header>
+
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()
@@ -115,9 +167,11 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2026 - HotelHousekeepingSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2026 - HotelHousekeepingSystem -
+        <a asp-controller="Home" asp-action="Privacy">About &amp; Team</a>
     </div>
 </footer>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

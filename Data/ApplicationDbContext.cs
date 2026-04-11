@@ -19,5 +19,7 @@ namespace HotelHousekeepingSystem.Data
         public DbSet<WorkSession> WorkSessions { get; set; }
         
         public DbSet<WorkerProfile> WorkerProfiles { get; set; }
+
+        public DbSet<MaintenanceIssue> MaintenanceIssues { get; set; }
     }
 }
