@@ -483,7 +483,6 @@ C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\scopedcss\bundle\HotelHousekeepingSystem.styles.css
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\scopedcss\projectbundle\HotelHousekeepingSystem.bundle.scp.css
-C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\compressed\giwrutbxqq-b9sayid5wm.gz
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\compressed\p6o6uc4cdi-61n19gt1b8.gz
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\compressed\cvdko3cu7d-xtxxf3hu2r.gz
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\compressed\1y9mlaorrl-t1cqhe9u97.gz
@@ -562,3 +561,4 @@ C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\HotelHousekeepingSystem.pdb
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\HotelHousekeepingSystem.genruntimeconfig.cache
 C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\ref\HotelHousekeepingSystem.dll
+C:\Users\tanze\OneDrive\Desktop\Winter 2026\COMP2154\Housekeeping\obj\Debug\net9.0\compressed\giwrutbxqq-h6vy1fjkxq.gz

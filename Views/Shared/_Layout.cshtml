@@ -3,174 +3,177 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - HotelHousekeepingSystem</title>
+    <title>@ViewData["Title"] - Hotel Housekeeping</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/HotelHousekeepingSystem.styles.css" asp-append-version="true"/>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
-                &#127968; Hotel Housekeeping
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target=".navbar-collapse" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+@{
+    var role     = Context.Session.GetString("UserRole");
+    var userName = Context.Session.GetString("UserName");
+    bool loggedIn  = !string.IsNullOrEmpty(userName);
+    bool isManager = role == "Manager";
+    bool isWorker  = role == "Worker";
+    string initials = string.IsNullOrEmpty(userName) ? "?" :
+        string.Join("", userName.Split(' ').Take(2).Select(w => w[0].ToString().ToUpper()));
+    string pageTitle = ViewData["Title"]?.ToString() ?? "Dashboard";
+}
 
-                @{
-                    var role     = Context.Session.GetString("UserRole");
-                    var userName = Context.Session.GetString("UserName");
-                    bool loggedIn   = !string.IsNullOrEmpty(userName);
-                    bool isManager  = role == "Manager";
-                    bool isWorker   = role == "Worker";
+@if (!loggedIn)
+{
+    <!-- NO SIDEBAR for guests -->
+    <div class="no-sidebar">
+        <div class="main-content">
+            <div class="topbar">
+                <span class="topbar-title">Hotel Housekeeping System</span>
+                <a href="/Auth/Login" class="btn btn-primary btn-sm px-3">Login</a>
+            </div>
+            <div class="page-content">
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show mb-4">
+                         @TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @RenderBody()
+            </div>
+        </div>
+        <footer class="app-footer no-sidebar">
+            <span>&copy; 2026 Hotel Housekeeping System — Group 24</span>
+            <a asp-controller="Home" asp-action="Privacy">About &amp; Team</a>
+        </footer>
+    </div>
+}
+else
+{
+    <!-- SIDEBAR LAYOUT for authenticated users -->
+    <div class="app-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">H</div>
+                <span class="brand-name">Hotel Housekeeping</span>
+                <span class="brand-sub">Management System</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                @if (isManager)
+                {
+                    <div class="sidebar-section">Main</div>
+                    <a class="sidebar-link" asp-controller="Home" asp-action="Index">
+                        <span class="s-icon">DB</span> Dashboard
+                    </a>
+                    <a class="sidebar-link" asp-controller="Room" asp-action="Index">
+                        <span class="s-icon">RM</span> Rooms
+                    </a>
+                    <a class="sidebar-link" asp-controller="CleaningTask" asp-action="Index">
+                        <span class="s-icon">HK</span> Housekeeping
+                    </a>
+                    <a class="sidebar-link" asp-controller="Maintenance" asp-action="Index">
+                        <span class="s-icon">MT</span> Maintenance
+                    </a>
+
+                    <div class="sidebar-section">People</div>
+                    <a class="sidebar-link" asp-controller="User" asp-action="Index">
+                        <span class="s-icon">SF</span> Staff
+                    </a>
+                    <a class="sidebar-link" asp-controller="User" asp-action="WorkSummary">
+                        <span class="s-icon">WS</span> Work Summary
+                    </a>
+
+                    <div class="sidebar-section">Reports</div>
+                    <a class="sidebar-link" asp-controller="Home" asp-action="DailyReport">
+                        <span class="s-icon">DR</span> Daily Report
+                    </a>
+                    <a class="sidebar-link" asp-controller="Home" asp-action="CleaningAnalytics">
+                        <span class="s-icon">AN</span> Analytics
+                    </a>
+                }
+                else if (isWorker)
+                {
+                    <div class="sidebar-section">My Work</div>
+                    <a class="sidebar-link" asp-controller="CleaningTask" asp-action="Index">
+                        <span class="s-icon">TK</span> My Tasks
+                    </a>
+                    <a class="sidebar-link" asp-controller="Maintenance" asp-action="Index">
+                        <span class="s-icon">MT</span> Maintenance
+                    </a>
+                    <a class="sidebar-link" asp-controller="User" asp-action="WorkSummary">
+                        <span class="s-icon">WS</span> Work Summary
+                    </a>
+
+                    <div class="sidebar-section">Profile</div>
+                    <a class="sidebar-link" asp-controller="WorkerProfile" asp-action="Index">
+                        <span class="s-icon">PR</span> My Profile
+                    </a>
                 }
 
-                <ul class="navbar-nav flex-grow-1">
+            </nav>
 
-                    @if (!loggedIn)
-                    {
-                        <!-- Not logged in: show nothing -->
-                    }
-                    else if (isManager)
-                    {
-                        <!-- MANAGER NAV -->
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Room" asp-action="Index">
-                                Rooms
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="CleaningTask" asp-action="Index">
-                                Housekeeping
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Maintenance" asp-action="Index">
-                                Maintenance
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="User" asp-action="Index">
-                                Staff
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="User" asp-action="WorkSummary">
-                                Work Summary
-                            </a>
-                        </li>
+            <!-- User card at bottom -->
+            <div class="sidebar-user">
+                <div class="s-avatar">@initials</div>
+                <div>
+                    <div class="s-user-name">@userName</div>
+                    <div class="s-user-role">@role</div>
+                </div>
+                <a href="/Auth/Logout" class="s-logout" title="Sign out">&rsaquo;</a>
+            </div>
+        </aside>
 
-                        <!-- Reports dropdown -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#"
-                               role="button" data-bs-toggle="dropdown">
-                                Reports
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="DailyReport">
-                                        &#128196; Daily Report
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="CleaningAnalytics">
-                                        &#128200; Cleaning Analytics
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                    else if (isWorker)
-                    {
-                        <!-- WORKER NAV -->
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="CleaningTask" asp-action="Index">
-                                My Tasks
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Maintenance" asp-action="Index">
-                                Maintenance
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="WorkerProfile" asp-action="Index">
-                                My Profile
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="User" asp-action="WorkSummary">
-                                Work Summary
-                            </a>
-                        </li>
-                    }
+        <!-- Main -->
+        <div class="main-content">
 
-                </ul>
+            <!-- Top bar -->
+            <div class="topbar">
+                <span class="topbar-title">@pageTitle</span>
+                <div class="topbar-right">
+                    <a asp-controller="WorkerProfile" asp-action="Index" class="notif-btn" title="My Profile">
+                        &#128100;
+                    </a>
+                    <a href="/Auth/Logout" class="notif-btn" title="Sign out"
+                       style="font-size:1rem;">
+                        &rarr;
+                    </a>
+                </div>
+            </div>
 
-                <!-- Right side: user dropdown -->
-                <ul class="navbar-nav ms-auto">
-                    @if (loggedIn)
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#"
-                               id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                Hello, <strong>@userName</strong>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li>
-                                    <span class="dropdown-item-text text-muted small">
-                                        Role: @role
-                                    </span>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="WorkerProfile" asp-action="Index">
-                                        My Profile
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item text-danger" href="/Auth/Logout">Logout</a>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-primary" href="/Auth/Login">Login</a>
-                        </li>
-                    }
-                </ul>
+            <!-- Page content -->
+            <div class="page-content">
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show mb-4">
+                         @TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show mb-4">
+                         @TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                @RenderBody()
 
             </div>
         </div>
-    </nav>
-</header>
 
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
-
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2026 - HotelHousekeepingSystem -
-        <a asp-controller="Home" asp-action="Privacy">About &amp; Team</a>
     </div>
-</footer>
+
+    <footer class="app-footer">
+        <span>&copy; 2026 Hotel Housekeeping System — Group 24</span>
+        <a asp-controller="Home" asp-action="Privacy">About &amp; Team</a>
+    </footer>
+}
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

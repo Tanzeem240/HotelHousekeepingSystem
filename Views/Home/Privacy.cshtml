@@ -1,128 +1,56 @@
 @{
     ViewData["Title"] = "About & Team";
+    bool isLoggedIn = Context.Session.GetString("UserName") != null;
 }
 
-<!-- Hero -->
-<div class="text-center py-4 mb-4">
-    <span style="font-size:48px;">&#127968;</span>
-    <h1 class="fw-bold mt-2">Hotel Housekeeping System</h1>
-    <p class="text-muted">COMP 2154 — System Development Project &nbsp;·&nbsp; Group 24 &nbsp;·&nbsp; Winter 2026</p>
+<!-- Page Header -->
+<div class="page-header">
+    <div>
+        <h2>About &amp; Team</h2>
+        <div class="subtitle">COMP 2154 — System Development Project — Group 24 — Winter 2026</div>
+    </div>
+    @if (isLoggedIn)
+    {
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-sm">
+            &larr; Dashboard
+        </a>
+    }
+    else
+    {
+        <a asp-controller="Auth" asp-action="Login" class="btn btn-primary btn-sm">
+            Sign In
+        </a>
+    }
 </div>
 
-<!-- About the System -->
-<div class="row mb-5">
-    <div class="col-md-8 mx-auto">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-4">
-                <h4 class="fw-bold mb-3">About the System</h4>
-                <p>
-                    The <strong>Hotel Housekeeping & Room Status Management System</strong> is a
-                    web-based internal application designed to centralize housekeeping workflows,
-                    automate room status transitions, and provide real-time operational visibility
-                    to hotel staff.
+<!-- Hero Banner -->
+<div class="card mb-4" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#1a56db 100%);
+     border:none!important;border-radius:16px!important;">
+    <div class="card-body p-5">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <p style="font-size:.75rem;font-weight:700;text-transform:uppercase;
+                           letter-spacing:1px;color:#60a5fa;margin-bottom:.75rem;">
+                    George Brown College — Winter 2026
                 </p>
-                <p>
-                    The system replaces manual paper-based processes and verbal communication
-                    with a structured digital workflow — reducing delays, improving accountability,
-                    and giving management the data they need to operate efficiently.
-                </p>
-                <h6 class="fw-bold mt-4 mb-2">Key Features</h6>
-                <ul class="text-muted">
-                    <li>Role-based access control (Manager &amp; Worker)</li>
-                    <li>Room lifecycle management (Available → Occupied → Dirty → Available)</li>
-                    <li>Automatic housekeeping task creation on guest check-out</li>
-                    <li>Task assignment, cleaning, and approval workflow</li>
-                    <li>Room categories (Regular, Deluxe, Suite, Presidential)</li>
-                    <li>Cleaning time tracking and analytics graph</li>
-                    <li>Worker profiles and staff directory</li>
-                    <li>Clock in/out and work summary for all staff</li>
-                    <li>Daily operational reports</li>
-                </ul>
-                <h6 class="fw-bold mt-4 mb-2">Technology Stack</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="badge bg-dark">ASP.NET Core MVC (.NET 9)</span>
-                    <span class="badge bg-primary">C#</span>
-                    <span class="badge bg-success">PostgreSQL</span>
-                    <span class="badge bg-info text-dark">Entity Framework Core</span>
-                    <span class="badge bg-secondary">Supabase</span>
-                    <span class="badge bg-warning text-dark">Bootstrap 5</span>
-                    <span class="badge bg-danger">Chart.js</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Team -->
-<h3 class="text-center fw-bold mb-4">Meet the Team</h3>
-<div class="row g-4 justify-content-center mb-5">
-
-    <!-- Member 1 -->
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center p-4">
-                <div class="rounded-circle bg-dark text-white d-inline-flex align-items-center justify-content-center mb-3"
-                     style="width:80px;height:80px;font-size:28px;">
-                    TS
-                </div>
-                <h5 class="fw-bold mb-1">Tanzeem Shaikh</h5>
-                <p class="text-muted small mb-2">Student ID: 101585484</p>
-                <span class="badge bg-primary mb-3">Backend Lead</span>
-                <hr />
-                <p class="text-muted small text-start mb-0">
-                    Responsible for controllers and business logic, database schema design,
-                    PostgreSQL integration, role-based access control, room lifecycle
-                    validation, task automation, authentication system, and overall
-                    backend architecture.
+                <h2 style="font-size:1.75rem;font-weight:800;color:#fff;
+                            letter-spacing:-.5px;margin-bottom:.75rem;">
+                    Hotel Housekeeping &amp;<br>Room Status Management System
+                </h2>
+                <p style="color:#94a3b8;font-size:.9rem;line-height:1.7;margin:0;">
+                    A centralized web-based internal application built to replace manual
+                    housekeeping coordination with an automated, role-driven digital workflow.
+                    Developed for COMP 2154 — System Development Project.
                 </p>
             </div>
-        </div>
-    </div>
-
-    <!-- Member 2 -->
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center p-4">
-                <div class="rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center mb-3"
-                     style="width:80px;height:80px;font-size:28px;">
-                    DS
-                </div>
-                <h5 class="fw-bold mb-1">Daviti Sidana</h5>
-                <p class="text-muted small mb-2">Student ID: 101540372</p>
-                <span class="badge bg-success mb-3">Frontend Lead</span>
-                <hr />
-                <p class="text-muted small text-start mb-0">
-                    Responsible for user interface development using HTML, CSS, and Razor views,
-                    dashboard layout and design, form handling, worker profile UI,
-                    usability improvements, and visual feedback across the application.
-                </p>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<!-- Course Info -->
-<div class="row mb-5">
-    <div class="col-md-8 mx-auto">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-4">
-                <h5 class="fw-bold mb-3">Project Information</h5>
-                <div class="row">
-                    <div class="col-sm-4 text-muted">Course</div>
-                    <div class="col-sm-8">COMP 2154 — System Development Project</div>
-                    <div class="col-sm-4 text-muted mt-2">Section</div>
-                    <div class="col-sm-8 mt-2">CRN 60124</div>
-                    <div class="col-sm-4 text-muted mt-2">Term</div>
-                    <div class="col-sm-8 mt-2">Winter 2026</div>
-                    <div class="col-sm-4 text-muted mt-2">Institution</div>
-                    <div class="col-sm-8 mt-2">George Brown College</div>
-                    <div class="col-sm-4 text-muted mt-2">Team</div>
-                    <div class="col-sm-8 mt-2">Group 24</div>
-                    <div class="col-sm-4 text-muted mt-2">Repository</div>
-                    <div class="col-sm-8 mt-2">
-                        <a href="https://github.com/Tanzeem240/HotelHousekeepingSystem"
-                           target="_blank">github.com/Tanzeem240/HotelHousekeepingSystem</a>
+            <div class="col-md-4 text-end">
+                <div style="display:inline-block;background:rgba(255,255,255,.06);
+                             border:1px solid rgba(255,255,255,.12);border-radius:14px;
+                             padding:1.5rem 2rem;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:#fff;">Group 24</div>
+                    <div style="font-size:.75rem;color:#64748b;margin-top:4px;
+                                text-transform:uppercase;letter-spacing:.5px;">
+                        COMP 2154 — CRN 60124
                     </div>
                 </div>
             </div>
@@ -130,13 +58,229 @@
     </div>
 </div>
 
-<div class="text-center mb-4">
-    @if (Context.Session.GetString("UserName") == null)
-    {
-        <a asp-controller="Auth" asp-action="Login" class="btn btn-primary px-5">Login to System</a>
-    }
-    else
-    {
-        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark px-5">Back to Dashboard</a>
-    }
+<!-- About + Tech Stack -->
+<div class="row g-4 mb-4">
+    <div class="col-md-7">
+        <div class="card h-100" style="border-radius:16px;">
+            <div class="card-header">About the System</div>
+            <div class="card-body">
+                <p style="font-size:.875rem;color:#374151;line-height:1.75;margin-bottom:1rem;">
+                    The system addresses the inefficiencies of manual housekeeping coordination
+                    in hotel environments — where paper logs, phone calls, and verbal communication
+                    frequently result in delayed updates, miscommunication, and slow room turnover.
+                </p>
+                <p style="font-size:.875rem;color:#374151;line-height:1.75;margin-bottom:1.25rem;">
+                    By centralizing all workflows into a single platform with role-based access,
+                    the system ensures every stakeholder — from front desk to management — has
+                    exactly the information and tools they need.
+                </p>
+
+                <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;
+                             letter-spacing:.5px;color:#94a3b8;margin-bottom:.75rem;">
+                    Key Capabilities
+                </div>
+                <div class="row g-2">
+                    @foreach (var item in new[] {
+                        "Role-based access control (Manager & Worker)",
+                        "Room lifecycle: Available → Occupied → Dirty → Available",
+                        "Automatic task creation on guest check-out",
+                        "Task assignment, cleaning, and approval workflow",
+                        "Room categories (Regular, Deluxe, Suite, Presidential)",
+                        "Cleaning time tracking and performance analytics",
+                        "Maintenance issue reporting and tracking",
+                        "Worker profiles and staff directory",
+                        "Clock in/out with full session history",
+                        "Daily operational reports"
+                    })
+                    {
+                        <div class="col-12">
+                            <div style="display:flex;align-items:center;gap:.6rem;
+                                         font-size:.835rem;color:#374151;padding:.2rem 0;">
+                                <div style="width:6px;height:6px;border-radius:50%;
+                                             background:#1a56db;flex-shrink:0;"></div>
+                                @item
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card h-100" style="border-radius:16px;">
+            <div class="card-header">Technology Stack</div>
+            <div class="card-body">
+                <div class="row g-2">
+                    @foreach (var tech in new[] {
+                        new { Name = "ASP.NET Core MVC", Sub = ".NET 9 Framework", Color = "#dbeafe", Text = "#1d4ed8" },
+                        new { Name = "C#", Sub = "Primary Language", Color = "#ede9fe", Text = "#6d28d9" },
+                        new { Name = "PostgreSQL", Sub = "Relational Database", Color = "#dcfce7", Text = "#15803d" },
+                        new { Name = "Entity Framework Core", Sub = "ORM / Migrations", Color = "#d1fae5", Text = "#065f46" },
+                        new { Name = "Supabase", Sub = "Cloud DB Host", Color = "#fef9c3", Text = "#a16207" },
+                        new { Name = "Bootstrap 5", Sub = "UI Framework", Color = "#fee2e2", Text = "#b91c1c" },
+                        new { Name = "Chart.js", Sub = "Analytics Charts", Color = "#fce7f3", Text = "#9d174d" },
+                        new { Name = "Razor Views", Sub = "Server-side UI", Color = "#f1f5f9", Text = "#475569" }
+                    })
+                    {
+                        <div class="col-6">
+                            <div style="background:@tech.Color;border-radius:10px;
+                                         padding:.75rem 1rem;height:100%;">
+                                <div style="font-size:.82rem;font-weight:700;color:@tech.Text;">
+                                    @tech.Name
+                                </div>
+                                <div style="font-size:.72rem;color:@tech.Text;opacity:.7;margin-top:2px;">
+                                    @tech.Sub
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Team -->
+<div style="font-size:.72rem;font-weight:700;text-transform:uppercase;
+             letter-spacing:1px;color:#1a56db;margin-bottom:.5rem;">
+    The Team
+</div>
+<h3 style="font-weight:800;letter-spacing:-.4px;margin-bottom:1.25rem;">Meet the developers</h3>
+
+<div class="row g-4 mb-4">
+
+    <!-- Tanzeem -->
+    <div class="col-md-6">
+        <div class="card" style="border-radius:16px;">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div style="width:56px;height:56px;border-radius:14px;
+                                 background:linear-gradient(135deg,#1a56db,#4f46e5);
+                                 display:flex;align-items:center;justify-content:center;
+                                 font-size:1rem;font-weight:800;color:#fff;flex-shrink:0;">
+                        TS
+                    </div>
+                    <div>
+                        <div style="font-size:1rem;font-weight:800;color:#0f172a;">
+                            Tanzeem Shaikh
+                        </div>
+                        <div style="font-size:.78rem;color:#94a3b8;">
+                            Student ID: 101585484
+                        </div>
+                        <span class="badge badge-assigned mt-1">Backend Lead</span>
+                    </div>
+                </div>
+                <p style="font-size:.855rem;color:#475569;line-height:1.65;margin-bottom:1rem;">
+                    Responsible for the complete backend architecture — controllers, business logic,
+                    database schema design, EF Core migrations, PostgreSQL integration via Supabase,
+                    role-based access control, session authentication, room lifecycle validation,
+                    and task automation workflows.
+                </p>
+                <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;
+                             letter-spacing:.5px;color:#94a3b8;margin-bottom:.5rem;">
+                    Key Contributions
+                </div>
+                <div class="d-flex flex-wrap gap-1">
+                    @foreach (var tag in new[]{"Auth System","RBAC","Controllers","DB Schema",
+                        "EF Migrations","Room Lifecycle","Task Automation","API Logic"})
+                    {
+                        <span style="background:#f1f5f9;border-radius:6px;padding:.2em .65em;
+                                      font-size:.72rem;font-weight:600;color:#475569;">
+                            @tag
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daviti -->
+    <div class="col-md-6">
+        <div class="card" style="border-radius:16px;">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div style="width:56px;height:56px;border-radius:14px;
+                                 background:linear-gradient(135deg,#16a34a,#0d9488);
+                                 display:flex;align-items:center;justify-content:center;
+                                 font-size:1rem;font-weight:800;color:#fff;flex-shrink:0;">
+                        DS
+                    </div>
+                    <div>
+                        <div style="font-size:1rem;font-weight:800;color:#0f172a;">
+                            Daviti Sidana
+                        </div>
+                        <div style="font-size:.78rem;color:#94a3b8;">
+                            Student ID: 101540372
+                        </div>
+                        <span class="badge badge-completed mt-1">Frontend Lead</span>
+                    </div>
+                </div>
+                <p style="font-size:.855rem;color:#475569;line-height:1.65;margin-bottom:1rem;">
+                    Responsible for all user-facing views — Razor templates, dashboard layout,
+                    responsive design, form handling, worker profile UI, status badge system,
+                    navigation structure, and ensuring a consistent, usable experience across
+                    all user roles.
+                </p>
+                <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;
+                             letter-spacing:.5px;color:#94a3b8;margin-bottom:.5rem;">
+                    Key Contributions
+                </div>
+                <div class="d-flex flex-wrap gap-1">
+                    @foreach (var tag in new[]{"Razor Views","Dashboard UI","Forms","Navigation",
+                        "Worker Profile","Status Badges","Responsive Layout","UX Design"})
+                    {
+                        <span style="background:#f1f5f9;border-radius:6px;padding:.2em .65em;
+                                      font-size:.72rem;font-weight:600;color:#475569;">
+                            @tag
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Info -->
+<div class="card mb-4" style="border-radius:16px;">
+    <div class="card-header">Project Information</div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <tbody>
+            @foreach (var row in new[] {
+                new { Label = "Course",      Value = "COMP 2154 — System Development Project" },
+                new { Label = "Section",     Value = "CRN 60124" },
+                new { Label = "Term",        Value = "Winter 2026" },
+                new { Label = "Institution", Value = "George Brown College" },
+                new { Label = "Team",        Value = "Group 24" },
+            })
+            {
+                <tr>
+                    <td style="width:20%;color:#94a3b8;font-size:.78rem;font-weight:700;
+                                text-transform:uppercase;letter-spacing:.4px;
+                                padding:1rem 1.5rem;">
+                        @row.Label
+                    </td>
+                    <td style="font-weight:500;color:#0f172a;padding:1rem 1.5rem;">
+                        @row.Value
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td style="color:#94a3b8;font-size:.78rem;font-weight:700;
+                            text-transform:uppercase;letter-spacing:.4px;
+                            padding:1rem 1.5rem;">
+                    Repository
+                </td>
+                <td style="padding:1rem 1.5rem;">
+                    <a href="https://github.com/Tanzeem240/HotelHousekeepingSystem"
+                       target="_blank"
+                       style="color:#1a56db;font-weight:500;font-size:.875rem;">
+                        github.com/Tanzeem240/HotelHousekeepingSystem
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
